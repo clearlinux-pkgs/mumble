@@ -1,3 +1,3 @@
-CONFIG+="c++11 bundled-celt no-bundled-opus no-bundled-speex no-g15 no-xevie no-server \
+CONFIG+="c++11 no-bundled-opus no-bundled-speex no-g15 no-xevie server no-ice \
     no-embed-qt-translations no-update packaged \
-    no-oss no-bonjour"
+    no-speechd no-rnnoise no-oss no-bonjour"
