@@ -6,7 +6,7 @@
 #
 Name     : mumble
 Version  : 1.3.0
-Release  : 4
+Release  : 5
 URL      : https://github.com/mumble-voip/mumble/releases/download/1.3.0/mumble-1.3.0.tar.gz
 Source0  : https://github.com/mumble-voip/mumble/releases/download/1.3.0/mumble-1.3.0.tar.gz
 Source1 : https://github.com/mumble-voip/mumble/releases/download/1.3.0/mumble-1.3.0.tar.gz.sig
