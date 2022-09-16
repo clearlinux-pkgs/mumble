@@ -6,18 +6,13 @@
 #
 Name     : mumble
 Version  : 1.3.4
-Release  : 12
+Release  : 14
 URL      : https://github.com/mumble-voip/mumble/releases/download/1.3.4/mumble-1.3.4.tar.gz
 Source0  : https://github.com/mumble-voip/mumble/releases/download/1.3.4/mumble-1.3.4.tar.gz
 Source1  : https://github.com/mumble-voip/mumble/releases/download/1.3.4/mumble-1.3.4.tar.gz.sig
 Summary  : CELT is a low-delay audio codec
 Group    : Development/Tools
 License  : Apache-2.0 BSD-2-Clause BSD-3-Clause BSL-1.0 FTL GPL-2.0 IJG ISC LGPL-2.0 LGPL-2.1 Libpng MIT OpenSSL Sleepycat Unlicense Zlib bzip2-1.0.6
-Requires: mumble-bin = %{version}-%{release}
-Requires: mumble-data = %{version}-%{release}
-Requires: mumble-lib = %{version}-%{release}
-Requires: mumble-license = %{version}-%{release}
-Requires: mumble-man = %{version}-%{release}
 BuildRequires : boost-dev
 BuildRequires : buildreq-qmake
 BuildRequires : libcap-dev
@@ -50,58 +45,6 @@ A voice chat utility for gamers
 http://mumble.info/
 #mumble on freenode
 
-%package bin
-Summary: bin components for the mumble package.
-Group: Binaries
-Requires: mumble-data = %{version}-%{release}
-Requires: mumble-license = %{version}-%{release}
-
-%description bin
-bin components for the mumble package.
-
-
-%package data
-Summary: data components for the mumble package.
-Group: Data
-
-%description data
-data components for the mumble package.
-
-
-%package extras
-Summary: extras components for the mumble package.
-Group: Default
-
-%description extras
-extras components for the mumble package.
-
-
-%package lib
-Summary: lib components for the mumble package.
-Group: Libraries
-Requires: mumble-data = %{version}-%{release}
-Requires: mumble-license = %{version}-%{release}
-
-%description lib
-lib components for the mumble package.
-
-
-%package license
-Summary: license components for the mumble package.
-Group: Default
-
-%description license
-license components for the mumble package.
-
-
-%package man
-Summary: man components for the mumble package.
-Group: Default
-
-%description man
-man components for the mumble package.
-
-
 %prep
 %setup -q -n mumble-1.3.4
 cd %{_builddir}/mumble-1.3.4
@@ -119,59 +62,59 @@ test -r config.log && cat config.log
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1613175620
+export SOURCE_DATE_EPOCH=1663083707
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mumble
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/appimage_runtime_license.txt %{buildroot}/usr/share/package-licenses/mumble/56e286039c4b5a9370b7f45f0baf7eb5b5753277
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/avahi_license.txt %{buildroot}/usr/share/package-licenses/mumble/7b7930ba0e891f9f64d2f3ff395eaab7f385244f
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/berkeleydb_license.txt %{buildroot}/usr/share/package-licenses/mumble/7cc1ed4976e3c34c90cd98ba60c6335d4a65a77c
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/boost_license.txt %{buildroot}/usr/share/package-licenses/mumble/bc3c4d41d4cc7753bea8e7a77fdb7cd384adbb59
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/bzip2_license.txt %{buildroot}/usr/share/package-licenses/mumble/7026f40da8af45f6fde59e10d519dbb9f333f22e
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/dbus_license.txt %{buildroot}/usr/share/package-licenses/mumble/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/expat_license.txt %{buildroot}/usr/share/package-licenses/mumble/7ba7b9158e4fb8c9d2eb46ad8c693bf85c96e1e4
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/freetype_license.txt %{buildroot}/usr/share/package-licenses/mumble/f755eabf10832203b9599193223672756e1fb1df
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/glib_license.txt %{buildroot}/usr/share/package-licenses/mumble/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/harfbuzzng_license.txt %{buildroot}/usr/share/package-licenses/mumble/e911adf5641a09f13fdd5d59962ad37da043df79
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libcap2_license.txt %{buildroot}/usr/share/package-licenses/mumble/1f65128ca2bb6715d81ca6c60f997c997d0ac69e
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libdaemon_license.txt %{buildroot}/usr/share/package-licenses/mumble/a227883ddd432c956349f0adb54f2e3033ff4a72
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libffi_license.txt %{buildroot}/usr/share/package-licenses/mumble/0155a7d592674828653b18e044fe6ea2685fac13
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libflac_license.txt %{buildroot}/usr/share/package-licenses/mumble/11464e106e37066a94a23fe4912581799daa3e41
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libfuse_license.txt %{buildroot}/usr/share/package-licenses/mumble/7e2849dfbbc6b796cbb2190922eda896697382a2
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libjpeg_turbo_license.txt %{buildroot}/usr/share/package-licenses/mumble/99ed55618f6265ddf7b32471b761344c9e831651
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libogg_license.txt %{buildroot}/usr/share/package-licenses/mumble/bc252631805cf037048f64fef562f98c2a0bdc9e
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libpng_license.txt %{buildroot}/usr/share/package-licenses/mumble/6a649b891335cb2a8a20dc64c6b362c97dd7712b
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libsndfile_license.txt %{buildroot}/usr/share/package-licenses/mumble/157d5db59507ff877c63b812f4f30e4a29a26d64
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/libvorbis_license.txt %{buildroot}/usr/share/package-licenses/mumble/4406aeb00f12a2c9cfba8066eef1a7a0c9b32f43
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/mach_override_license.txt %{buildroot}/usr/share/package-licenses/mumble/0b3be77bd86c98f691c869fc9f48b6babb2291c6
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/mariadb_c_connector_license.txt %{buildroot}/usr/share/package-licenses/mumble/cf21ce379fce1155d600e9d9187b2c67df816b16
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/mcpp_license.txt %{buildroot}/usr/share/package-licenses/mumble/3661c9746c938d10f7c20dfc8d844a1ba46487e2
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/mdnsresponder_license.txt %{buildroot}/usr/share/package-licenses/mumble/0d731ea50fb6a99588c95357114e78dd853c2afe
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/mumble-old-license-headers/LICENSE.txt %{buildroot}/usr/share/package-licenses/mumble/236c2ef764273c86adfcd0456ba5c3c5e1931417
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/openssl_license.txt %{buildroot}/usr/share/package-licenses/mumble/65d424837b214fcdf4e95f0b408c8851465a615c
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/pcre_license.txt %{buildroot}/usr/share/package-licenses/mumble/512f24346f2ff4458c1b782f7d737a5837749cd8
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/protobuf_license.txt %{buildroot}/usr/share/package-licenses/mumble/a0bcc878d7e7181b120ae51837c8d1703fe919ab
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/qt_license.txt %{buildroot}/usr/share/package-licenses/mumble/fe04fe44c5e1a407572a5cca79d39afd674bccf3
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/squashfuse_license.txt %{buildroot}/usr/share/package-licenses/mumble/18bfcba3d79cb8c4122da9aa7bf080906eb211d7
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/xar_license.txt %{buildroot}/usr/share/package-licenses/mumble/a599ef676fb179a995accc72c60056163021091c
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/zeroc_ice_license.txt %{buildroot}/usr/share/package-licenses/mumble/bf9becec987678f3d8836ecb67dd1c43c44a175e
-cp %{_builddir}/mumble-1.3.4/3rdPartyLicenses/zlib_license.txt %{buildroot}/usr/share/package-licenses/mumble/523f3a2d5e423fde87ab80ccb90220cb7f7f69d3
-cp %{_builddir}/mumble-1.3.4/3rdparty/arc4random-src/LICENSE %{buildroot}/usr/share/package-licenses/mumble/62c67fe91c02173222a9e6ecdcdca1d5f35da5bd
-cp %{_builddir}/mumble-1.3.4/3rdparty/celt-0.11.0-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/95df77a75f7583f1601b2e50ba9ab91a4af150dc
-cp %{_builddir}/mumble-1.3.4/3rdparty/celt-0.7.0-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/8c7ba490088248118e26af8067fff8eb03ed0c84
-cp %{_builddir}/mumble-1.3.4/3rdparty/minhook-src/LICENSE.txt %{buildroot}/usr/share/package-licenses/mumble/6c30d77b67f44704514f77c27fa93175b5370796
-cp %{_builddir}/mumble-1.3.4/3rdparty/opus-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/dfada97ba32cb44804736a7768104a06be91a4f7
-cp %{_builddir}/mumble-1.3.4/3rdparty/qqbonjour-src/LICENSE %{buildroot}/usr/share/package-licenses/mumble/bfec03f4c228ee1afd393be267268731353b54d6
-cp %{_builddir}/mumble-1.3.4/3rdparty/rnnoise-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/5f8e73e1f293d0f127c2bcad2ab6fc5fa2a58139
-cp %{_builddir}/mumble-1.3.4/3rdparty/smallft-src/LICENSE %{buildroot}/usr/share/package-licenses/mumble/731b20e0b908255017e7721f13153acf59ec737a
-cp %{_builddir}/mumble-1.3.4/3rdparty/speex-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/7f3f67aef48ead049bebdab307c04c2e03342710
-cp %{_builddir}/mumble-1.3.4/3rdparty/speexdsp-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/7f3f67aef48ead049bebdab307c04c2e03342710
-cp %{_builddir}/mumble-1.3.4/3rdparty/xinputcheck-src/COPYING.txt %{buildroot}/usr/share/package-licenses/mumble/b360492bb2fa9b429e460a3f99d30dfea61885b4
-cp %{_builddir}/mumble-1.3.4/LICENSE %{buildroot}/usr/share/package-licenses/mumble/387b42fbb29142d85ca30f5b514574eacbc9fa43
-cp %{_builddir}/mumble-1.3.4/icons/flags/LICENSE.md %{buildroot}/usr/share/package-licenses/mumble/e31d75c9ecb70be058abe89484fe711012d9db46
-cp %{_builddir}/mumble-1.3.4/installer/gpl.txt %{buildroot}/usr/share/package-licenses/mumble/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/mumble-1.3.4/src/licenses.h %{buildroot}/usr/share/package-licenses/mumble/e491825ea3b3efad8cda0b9ac7496cbecb554beb
-cp %{_builddir}/mumble-1.3.4/src/mumble/qttranslations/LICENSE %{buildroot}/usr/share/package-licenses/mumble/a086566c447c42592640d238e5ca117a99e89fff
-cp %{_builddir}/mumble-1.3.4/themes/Mumble/LICENSE %{buildroot}/usr/share/package-licenses/mumble/f6067df486cbdbb0aac026b799b26261c92734a3
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/appimage_runtime_license.txt %{buildroot}/usr/share/package-licenses/mumble/56e286039c4b5a9370b7f45f0baf7eb5b5753277 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/avahi_license.txt %{buildroot}/usr/share/package-licenses/mumble/7b7930ba0e891f9f64d2f3ff395eaab7f385244f || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/berkeleydb_license.txt %{buildroot}/usr/share/package-licenses/mumble/7cc1ed4976e3c34c90cd98ba60c6335d4a65a77c || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/boost_license.txt %{buildroot}/usr/share/package-licenses/mumble/bc3c4d41d4cc7753bea8e7a77fdb7cd384adbb59 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/bzip2_license.txt %{buildroot}/usr/share/package-licenses/mumble/7026f40da8af45f6fde59e10d519dbb9f333f22e || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/dbus_license.txt %{buildroot}/usr/share/package-licenses/mumble/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/expat_license.txt %{buildroot}/usr/share/package-licenses/mumble/7ba7b9158e4fb8c9d2eb46ad8c693bf85c96e1e4 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/freetype_license.txt %{buildroot}/usr/share/package-licenses/mumble/f755eabf10832203b9599193223672756e1fb1df || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/glib_license.txt %{buildroot}/usr/share/package-licenses/mumble/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/harfbuzzng_license.txt %{buildroot}/usr/share/package-licenses/mumble/e911adf5641a09f13fdd5d59962ad37da043df79 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libcap2_license.txt %{buildroot}/usr/share/package-licenses/mumble/1f65128ca2bb6715d81ca6c60f997c997d0ac69e || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libdaemon_license.txt %{buildroot}/usr/share/package-licenses/mumble/a227883ddd432c956349f0adb54f2e3033ff4a72 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libffi_license.txt %{buildroot}/usr/share/package-licenses/mumble/0155a7d592674828653b18e044fe6ea2685fac13 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libflac_license.txt %{buildroot}/usr/share/package-licenses/mumble/11464e106e37066a94a23fe4912581799daa3e41 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libfuse_license.txt %{buildroot}/usr/share/package-licenses/mumble/7e2849dfbbc6b796cbb2190922eda896697382a2 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libjpeg_turbo_license.txt %{buildroot}/usr/share/package-licenses/mumble/99ed55618f6265ddf7b32471b761344c9e831651 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libogg_license.txt %{buildroot}/usr/share/package-licenses/mumble/bc252631805cf037048f64fef562f98c2a0bdc9e || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libpng_license.txt %{buildroot}/usr/share/package-licenses/mumble/6a649b891335cb2a8a20dc64c6b362c97dd7712b || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libsndfile_license.txt %{buildroot}/usr/share/package-licenses/mumble/157d5db59507ff877c63b812f4f30e4a29a26d64 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/libvorbis_license.txt %{buildroot}/usr/share/package-licenses/mumble/4406aeb00f12a2c9cfba8066eef1a7a0c9b32f43 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/mach_override_license.txt %{buildroot}/usr/share/package-licenses/mumble/0b3be77bd86c98f691c869fc9f48b6babb2291c6 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/mariadb_c_connector_license.txt %{buildroot}/usr/share/package-licenses/mumble/cf21ce379fce1155d600e9d9187b2c67df816b16 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/mcpp_license.txt %{buildroot}/usr/share/package-licenses/mumble/3661c9746c938d10f7c20dfc8d844a1ba46487e2 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/mdnsresponder_license.txt %{buildroot}/usr/share/package-licenses/mumble/0d731ea50fb6a99588c95357114e78dd853c2afe || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/mumble-old-license-headers/LICENSE.txt %{buildroot}/usr/share/package-licenses/mumble/236c2ef764273c86adfcd0456ba5c3c5e1931417 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/openssl_license.txt %{buildroot}/usr/share/package-licenses/mumble/65d424837b214fcdf4e95f0b408c8851465a615c || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/pcre_license.txt %{buildroot}/usr/share/package-licenses/mumble/512f24346f2ff4458c1b782f7d737a5837749cd8 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/protobuf_license.txt %{buildroot}/usr/share/package-licenses/mumble/a0bcc878d7e7181b120ae51837c8d1703fe919ab || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/qt_license.txt %{buildroot}/usr/share/package-licenses/mumble/fe04fe44c5e1a407572a5cca79d39afd674bccf3 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/squashfuse_license.txt %{buildroot}/usr/share/package-licenses/mumble/18bfcba3d79cb8c4122da9aa7bf080906eb211d7 || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/xar_license.txt %{buildroot}/usr/share/package-licenses/mumble/a599ef676fb179a995accc72c60056163021091c || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/zeroc_ice_license.txt %{buildroot}/usr/share/package-licenses/mumble/bf9becec987678f3d8836ecb67dd1c43c44a175e || :
+cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/zlib_license.txt %{buildroot}/usr/share/package-licenses/mumble/523f3a2d5e423fde87ab80ccb90220cb7f7f69d3 || :
+cp %{_builddir}/mumble-%{version}/3rdparty/arc4random-src/LICENSE %{buildroot}/usr/share/package-licenses/mumble/62c67fe91c02173222a9e6ecdcdca1d5f35da5bd || :
+cp %{_builddir}/mumble-%{version}/3rdparty/celt-0.11.0-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/95df77a75f7583f1601b2e50ba9ab91a4af150dc || :
+cp %{_builddir}/mumble-%{version}/3rdparty/celt-0.7.0-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/8c7ba490088248118e26af8067fff8eb03ed0c84 || :
+cp %{_builddir}/mumble-%{version}/3rdparty/minhook-src/LICENSE.txt %{buildroot}/usr/share/package-licenses/mumble/6c30d77b67f44704514f77c27fa93175b5370796 || :
+cp %{_builddir}/mumble-%{version}/3rdparty/opus-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/dfada97ba32cb44804736a7768104a06be91a4f7 || :
+cp %{_builddir}/mumble-%{version}/3rdparty/qqbonjour-src/LICENSE %{buildroot}/usr/share/package-licenses/mumble/bfec03f4c228ee1afd393be267268731353b54d6 || :
+cp %{_builddir}/mumble-%{version}/3rdparty/rnnoise-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/5f8e73e1f293d0f127c2bcad2ab6fc5fa2a58139 || :
+cp %{_builddir}/mumble-%{version}/3rdparty/smallft-src/LICENSE %{buildroot}/usr/share/package-licenses/mumble/731b20e0b908255017e7721f13153acf59ec737a || :
+cp %{_builddir}/mumble-%{version}/3rdparty/speex-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/7f3f67aef48ead049bebdab307c04c2e03342710 || :
+cp %{_builddir}/mumble-%{version}/3rdparty/speexdsp-src/COPYING %{buildroot}/usr/share/package-licenses/mumble/7f3f67aef48ead049bebdab307c04c2e03342710 || :
+cp %{_builddir}/mumble-%{version}/3rdparty/xinputcheck-src/COPYING.txt %{buildroot}/usr/share/package-licenses/mumble/b360492bb2fa9b429e460a3f99d30dfea61885b4 || :
+cp %{_builddir}/mumble-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/mumble/387b42fbb29142d85ca30f5b514574eacbc9fa43 || :
+cp %{_builddir}/mumble-%{version}/icons/flags/LICENSE.md %{buildroot}/usr/share/package-licenses/mumble/e31d75c9ecb70be058abe89484fe711012d9db46 || :
+cp %{_builddir}/mumble-%{version}/installer/gpl.txt %{buildroot}/usr/share/package-licenses/mumble/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/mumble-%{version}/src/licenses.h %{buildroot}/usr/share/package-licenses/mumble/e491825ea3b3efad8cda0b9ac7496cbecb554beb || :
+cp %{_builddir}/mumble-%{version}/src/mumble/qttranslations/LICENSE %{buildroot}/usr/share/package-licenses/mumble/a086566c447c42592640d238e5ca117a99e89fff || :
+cp %{_builddir}/mumble-%{version}/themes/Mumble/LICENSE %{buildroot}/usr/share/package-licenses/mumble/f6067df486cbdbb0aac026b799b26261c92734a3 || :
 %make_install
 ## install_append content
 mkdir -p %{buildroot}/usr/bin
@@ -198,90 +141,3 @@ install -m0644 man/mum* %{buildroot}/usr/share/man/man1/
 
 %files
 %defattr(-,root,root,-)
-
-%files bin
-%defattr(-,root,root,-)
-/usr/bin/mumble
-/usr/bin/mumble-overlay
-
-%files data
-%defattr(-,root,root,-)
-/usr/share/applications/mumble.desktop
-/usr/share/icons/hicolor/scalable/apps/mumble.svg
-
-%files extras
-%defattr(-,root,root,-)
-/usr/bin/murmurd
-
-%files lib
-%defattr(-,root,root,-)
-/usr/lib64/mumble/libcelt0.so
-/usr/lib64/mumble/libcelt0.so.0
-/usr/lib64/mumble/libcelt0.so.0.11
-/usr/lib64/mumble/libcelt0.so.0.11.0
-/usr/lib64/mumble/libcelt0.so.0.7
-/usr/lib64/mumble/libcelt0.so.0.7.0
-/usr/lib64/mumble/libl4d2.so
-/usr/lib64/mumble/liblink.so
-/usr/lib64/mumble/libmumble.so
-/usr/lib64/mumble/libmumble.so.1
-/usr/lib64/mumble/libmumble.so.1.3
-/usr/lib64/mumble/libmumble.so.1.3.3
-/usr/lib64/mumble/librl.so
-
-%files license
-%defattr(0644,root,root,0755)
-/usr/share/package-licenses/mumble/0155a7d592674828653b18e044fe6ea2685fac13
-/usr/share/package-licenses/mumble/090586b9e4c51fd5ef3c39f25d2469a8be8e33c9
-/usr/share/package-licenses/mumble/0b3be77bd86c98f691c869fc9f48b6babb2291c6
-/usr/share/package-licenses/mumble/0d731ea50fb6a99588c95357114e78dd853c2afe
-/usr/share/package-licenses/mumble/11464e106e37066a94a23fe4912581799daa3e41
-/usr/share/package-licenses/mumble/157d5db59507ff877c63b812f4f30e4a29a26d64
-/usr/share/package-licenses/mumble/18bfcba3d79cb8c4122da9aa7bf080906eb211d7
-/usr/share/package-licenses/mumble/1f65128ca2bb6715d81ca6c60f997c997d0ac69e
-/usr/share/package-licenses/mumble/236c2ef764273c86adfcd0456ba5c3c5e1931417
-/usr/share/package-licenses/mumble/3661c9746c938d10f7c20dfc8d844a1ba46487e2
-/usr/share/package-licenses/mumble/387b42fbb29142d85ca30f5b514574eacbc9fa43
-/usr/share/package-licenses/mumble/4406aeb00f12a2c9cfba8066eef1a7a0c9b32f43
-/usr/share/package-licenses/mumble/512f24346f2ff4458c1b782f7d737a5837749cd8
-/usr/share/package-licenses/mumble/523f3a2d5e423fde87ab80ccb90220cb7f7f69d3
-/usr/share/package-licenses/mumble/56e286039c4b5a9370b7f45f0baf7eb5b5753277
-/usr/share/package-licenses/mumble/5f8e73e1f293d0f127c2bcad2ab6fc5fa2a58139
-/usr/share/package-licenses/mumble/62c67fe91c02173222a9e6ecdcdca1d5f35da5bd
-/usr/share/package-licenses/mumble/65d424837b214fcdf4e95f0b408c8851465a615c
-/usr/share/package-licenses/mumble/6a649b891335cb2a8a20dc64c6b362c97dd7712b
-/usr/share/package-licenses/mumble/6c30d77b67f44704514f77c27fa93175b5370796
-/usr/share/package-licenses/mumble/7026f40da8af45f6fde59e10d519dbb9f333f22e
-/usr/share/package-licenses/mumble/731b20e0b908255017e7721f13153acf59ec737a
-/usr/share/package-licenses/mumble/7b7930ba0e891f9f64d2f3ff395eaab7f385244f
-/usr/share/package-licenses/mumble/7ba7b9158e4fb8c9d2eb46ad8c693bf85c96e1e4
-/usr/share/package-licenses/mumble/7cc1ed4976e3c34c90cd98ba60c6335d4a65a77c
-/usr/share/package-licenses/mumble/7e2849dfbbc6b796cbb2190922eda896697382a2
-/usr/share/package-licenses/mumble/7f3f67aef48ead049bebdab307c04c2e03342710
-/usr/share/package-licenses/mumble/8c7ba490088248118e26af8067fff8eb03ed0c84
-/usr/share/package-licenses/mumble/95df77a75f7583f1601b2e50ba9ab91a4af150dc
-/usr/share/package-licenses/mumble/99ed55618f6265ddf7b32471b761344c9e831651
-/usr/share/package-licenses/mumble/a086566c447c42592640d238e5ca117a99e89fff
-/usr/share/package-licenses/mumble/a0bcc878d7e7181b120ae51837c8d1703fe919ab
-/usr/share/package-licenses/mumble/a227883ddd432c956349f0adb54f2e3033ff4a72
-/usr/share/package-licenses/mumble/a599ef676fb179a995accc72c60056163021091c
-/usr/share/package-licenses/mumble/b360492bb2fa9b429e460a3f99d30dfea61885b4
-/usr/share/package-licenses/mumble/b47456e2c1f38c40346ff00db976a2badf36b5e3
-/usr/share/package-licenses/mumble/bc252631805cf037048f64fef562f98c2a0bdc9e
-/usr/share/package-licenses/mumble/bc3c4d41d4cc7753bea8e7a77fdb7cd384adbb59
-/usr/share/package-licenses/mumble/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
-/usr/share/package-licenses/mumble/bf9becec987678f3d8836ecb67dd1c43c44a175e
-/usr/share/package-licenses/mumble/bfec03f4c228ee1afd393be267268731353b54d6
-/usr/share/package-licenses/mumble/cf21ce379fce1155d600e9d9187b2c67df816b16
-/usr/share/package-licenses/mumble/dfada97ba32cb44804736a7768104a06be91a4f7
-/usr/share/package-licenses/mumble/e31d75c9ecb70be058abe89484fe711012d9db46
-/usr/share/package-licenses/mumble/e491825ea3b3efad8cda0b9ac7496cbecb554beb
-/usr/share/package-licenses/mumble/e911adf5641a09f13fdd5d59962ad37da043df79
-/usr/share/package-licenses/mumble/f6067df486cbdbb0aac026b799b26261c92734a3
-/usr/share/package-licenses/mumble/f755eabf10832203b9599193223672756e1fb1df
-/usr/share/package-licenses/mumble/fe04fe44c5e1a407572a5cca79d39afd674bccf3
-
-%files man
-%defattr(0644,root,root,0755)
-/usr/share/man/man1/mumble-overlay.1
-/usr/share/man/man1/mumble.1
