@@ -1,20 +1,19 @@
-mkdir -p %{buildroot}/usr/bin
-install -m0755 release/mumble %{buildroot}/usr/bin/
-install -m0755 release/murmurd %{buildroot}/usr/bin/
-install -m0755 scripts/mumble-overlay %{buildroot}/usr/bin/
+## Put these files somewhere useful:
+# /usr/etc/mumble/MumbleServer.ice
+# /usr/etc/mumble/mumble-server.ini
+# /usr/etc/sysconfig.d/mumble-server.conf
+# /usr/etc/systemd/system/mumble-server.service
 
-mkdir -p %{buildroot}/usr/share/applications
-install -m0644 scripts/mumble.desktop %{buildroot}/usr/share/applications/
+# Most of this goes in /usr/share/mumble:
+mkdir -p %{buildroot}/usr/share/mumble
+mv \
+	%{buildroot}/usr/etc/sysconfig.d/*	\
+	%{buildroot}/usr/etc/mumble/*		\
+	%{buildroot}/usr/share/mumble/
 
-mkdir -p %{buildroot}/usr/share/icons/hicolor/scalable/apps
-install -m0644 icons/mumble.svg %{buildroot}/usr/share/icons/hicolor/scalable/apps/mumble.svg
+# But install the systemd.service in /usr/lib:
+mkdir -p %{buildroot}/usr/lib/systemd/system
+mv %{buildroot}/usr/etc/systemd/system/* %{buildroot}/usr/lib/systemd/system/
 
-mkdir -p %{buildroot}/usr/lib64/mumble
-cp -aP release/libmumble.* %{buildroot}/usr/lib64/mumble/
-cp -aP release/libcelt* %{buildroot}/usr/lib64/mumble/
-install -m0755 release/plugins/liblink.so %{buildroot}/usr/lib64/mumble/
-install -m0755 release/plugins/libl4d2.so %{buildroot}/usr/lib64/mumble/
-install -m0755 release/plugins/librl.so %{buildroot}/usr/lib64/mumble/
-
-mkdir -p %{buildroot}/usr/share/man/man1
-install -m0644 man/mum* %{buildroot}/usr/share/man/man1/
+# We stashed the example ini file in /usr/share/mumble, but at runtime, need to read it from /etc
+sed -i 's|\(-ini.*\)/usr\(/etc/.*\.ini\)|\1\2|' %{buildroot}/usr/lib/systemd/system/mumble*.service

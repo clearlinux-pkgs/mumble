@@ -1,0 +1,8 @@
+-Dbundled-celt=ON
+-Dbundled-speex=OFF
+-Drnnoise=ON
+-Dspeechd=OFF
+-Dupdate=OFF
+-Dice=OFF
+-Doverlay-xcompile=OFF
+-DMUMBLE_INSTALL_ABS_SYSCONFDIR=/usr/share/mumble

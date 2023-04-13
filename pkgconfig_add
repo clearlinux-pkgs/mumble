@@ -1,7 +1,14 @@
 # This file contains additional pkgconfig build requirements that did
 # not get picked up automatically. One name per line, no whitespace.
-sndfile
 Qt5Core
-x11
+Qt5Svg
 alsa
+avahi-compat-libdns_sd
+libcap
 libpulse
+openssl
+opus
+sndfile
+speex
+speexdsp
+x11

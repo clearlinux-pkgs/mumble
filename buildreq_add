@@ -3,6 +3,7 @@
 boost-dev
 mesa-dev
 openssl-dev
+poco-dev
 protobuf-dev
 qttools-dev
 speex-dev
