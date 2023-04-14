@@ -7,7 +7,7 @@
 #
 Name     : mumble
 Version  : 1.5.517
-Release  : 15
+Release  : 16
 URL      : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source0  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source1  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz.sig
@@ -19,7 +19,6 @@ Requires: mumble-data = %{version}-%{release}
 Requires: mumble-lib = %{version}-%{release}
 Requires: mumble-license = %{version}-%{release}
 Requires: mumble-man = %{version}-%{release}
-Requires: mumble-services = %{version}-%{release}
 BuildRequires : boost-dev
 BuildRequires : buildreq-cmake
 BuildRequires : git
@@ -60,7 +59,6 @@ Summary: bin components for the mumble package.
 Group: Binaries
 Requires: mumble-data = %{version}-%{release}
 Requires: mumble-license = %{version}-%{release}
-Requires: mumble-services = %{version}-%{release}
 
 %description bin
 bin components for the mumble package.
@@ -72,6 +70,14 @@ Group: Data
 
 %description data
 data components for the mumble package.
+
+
+%package extras
+Summary: extras components for the mumble package.
+Group: Default
+
+%description extras
+extras components for the mumble package.
 
 
 %package lib
@@ -100,15 +106,6 @@ Group: Default
 man components for the mumble package.
 
 
-%package services
-Summary: services components for the mumble package.
-Group: Systemd services
-Requires: systemd
-
-%description services
-services components for the mumble package.
-
-
 %prep
 %setup -q -n mumble-1.5.517
 cd %{_builddir}/mumble-1.5.517
@@ -118,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1681429449
+export SOURCE_DATE_EPOCH=1681485082
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -138,7 +135,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1681429449
+export SOURCE_DATE_EPOCH=1681485082
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mumble
 cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/appimage_runtime_license.txt %{buildroot}/usr/share/package-licenses/mumble/56e286039c4b5a9370b7f45f0baf7eb5b5753277 || :
@@ -227,16 +224,22 @@ sed -i 's|\(-ini.*\)/usr\(/etc/.*\.ini\)|\1\2|' %{buildroot}/usr/lib/systemd/sys
 %defattr(-,root,root,-)
 /usr/bin/mumble
 /usr/bin/mumble-overlay
-/usr/bin/mumble-server
-/usr/bin/mumble-server-user-wrapper
 
 %files data
 %defattr(-,root,root,-)
 /usr/share/applications/info.mumble.Mumble.desktop
-/usr/share/dbus-1/system.d/mumble-server.conf
 /usr/share/icons/hicolor/256x256/apps/mumble.png
 /usr/share/icons/hicolor/scalable/apps/mumble.svg
 /usr/share/metainfo/info.mumble.Mumble.appdata.xml
+
+%files extras
+%defattr(-,root,root,-)
+/usr/bin/mumble-server
+/usr/bin/mumble-server-user-wrapper
+/usr/lib/systemd/system/mumble-server.service
+/usr/share/dbus-1/system.d/mumble-server.conf
+/usr/share/man/man1/mumble-server-user-wrapper.1
+/usr/share/man/man1/mumble-server.1
 /usr/share/mumble/MumbleServer.ice
 /usr/share/mumble/mumble-server.conf
 /usr/share/mumble/mumble-server.ini
@@ -352,10 +355,4 @@ sed -i 's|\(-ini.*\)/usr\(/etc/.*\.ini\)|\1\2|' %{buildroot}/usr/lib/systemd/sys
 %files man
 %defattr(0644,root,root,0755)
 /usr/share/man/man1/mumble-overlay.1
-/usr/share/man/man1/mumble-server-user-wrapper.1
-/usr/share/man/man1/mumble-server.1
 /usr/share/man/man1/mumble.1
-
-%files services
-%defattr(-,root,root,-)
-/usr/lib/systemd/system/mumble-server.service

@@ -1,1 +1,9 @@
-/usr/bin/murmurd
+/usr/bin/mumble-server
+/usr/bin/mumble-server-user-wrapper
+/usr/share/dbus-1/system.d/mumble-server.conf
+/usr/share/mumble/MumbleServer.ice
+/usr/share/mumble/mumble-server.conf
+/usr/share/mumble/mumble-server.ini
+/usr/share/man/man1/mumble-server-user-wrapper.1
+/usr/share/man/man1/mumble-server.1
+/usr/lib/systemd/system/mumble-server.service
