@@ -7,7 +7,7 @@
 #
 Name     : mumble
 Version  : 1.5.517
-Release  : 16
+Release  : 17
 URL      : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source0  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source1  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz.sig
@@ -115,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1681485082
+export SOURCE_DATE_EPOCH=1681490184
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -135,7 +135,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1681485082
+export SOURCE_DATE_EPOCH=1681490184
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mumble
 cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/appimage_runtime_license.txt %{buildroot}/usr/share/package-licenses/mumble/56e286039c4b5a9370b7f45f0baf7eb5b5753277 || :
@@ -202,6 +202,9 @@ popd
 # /usr/etc/sysconfig.d/mumble-server.conf
 # /usr/etc/systemd/system/mumble-server.service
 
+## Note: This will change significantly in version 1.6, once this PR is merged:
+# https://github.com/mumble-voip/mumble/pull/6100
+
 # Most of this goes in /usr/share/mumble:
 mkdir -p %{buildroot}/usr/share/mumble
 mv \
@@ -215,6 +218,13 @@ mv %{buildroot}/usr/etc/systemd/system/* %{buildroot}/usr/lib/systemd/system/
 
 # We stashed the example ini file in /usr/share/mumble, but at runtime, need to read it from /etc
 sed -i 's|\(-ini.*\)/usr\(/etc/.*\.ini\)|\1\2|' %{buildroot}/usr/lib/systemd/system/mumble*.service
+
+# Make sure the mumble-server-user-wrapper script knows where to find the template ini file
+sed -i 's|^SYSDIR=.*|SYSDIR=/usr/share/mumble|g' %{buildroot}/usr/bin/mumble-server-user-wrapper
+
+# Install the sysusers file so systemd will create a non-root user for the server
+mkdir -p %{buildroot}/usr/lib/sysusers.d
+install -m0644 -T %{_builddir}/mumble-%{version}/auxiliary_files/config_files/mumble-server.sysusers %{buildroot}/usr/lib/sysusers.d/mumble-server.conf
 ## install_append end
 
 %files
@@ -237,6 +247,7 @@ sed -i 's|\(-ini.*\)/usr\(/etc/.*\.ini\)|\1\2|' %{buildroot}/usr/lib/systemd/sys
 /usr/bin/mumble-server
 /usr/bin/mumble-server-user-wrapper
 /usr/lib/systemd/system/mumble-server.service
+/usr/lib/sysusers.d/mumble-server.conf
 /usr/share/dbus-1/system.d/mumble-server.conf
 /usr/share/man/man1/mumble-server-user-wrapper.1
 /usr/share/man/man1/mumble-server.1

@@ -7,3 +7,4 @@
 /usr/share/man/man1/mumble-server-user-wrapper.1
 /usr/share/man/man1/mumble-server.1
 /usr/lib/systemd/system/mumble-server.service
+/usr/lib/sysusers.d/mumble-server.conf

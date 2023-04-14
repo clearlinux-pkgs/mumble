@@ -4,6 +4,9 @@
 # /usr/etc/sysconfig.d/mumble-server.conf
 # /usr/etc/systemd/system/mumble-server.service
 
+## Note: This will change significantly in version 1.6, once this PR is merged:
+# https://github.com/mumble-voip/mumble/pull/6100
+
 # Most of this goes in /usr/share/mumble:
 mkdir -p %{buildroot}/usr/share/mumble
 mv \
@@ -17,3 +20,10 @@ mv %{buildroot}/usr/etc/systemd/system/* %{buildroot}/usr/lib/systemd/system/
 
 # We stashed the example ini file in /usr/share/mumble, but at runtime, need to read it from /etc
 sed -i 's|\(-ini.*\)/usr\(/etc/.*\.ini\)|\1\2|' %{buildroot}/usr/lib/systemd/system/mumble*.service
+
+# Make sure the mumble-server-user-wrapper script knows where to find the template ini file
+sed -i 's|^SYSDIR=.*|SYSDIR=/usr/share/mumble|g' %{buildroot}/usr/bin/mumble-server-user-wrapper
+
+# Install the sysusers file so systemd will create a non-root user for the server
+mkdir -p %{buildroot}/usr/lib/sysusers.d
+install -m0644 -T %{_builddir}/mumble-%{version}/auxiliary_files/config_files/mumble-server.sysusers %{buildroot}/usr/lib/sysusers.d/mumble-server.conf
