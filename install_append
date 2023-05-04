@@ -23,7 +23,3 @@ sed -i 's|\(-ini.*\)/usr\(/etc/.*\.ini\)|\1\2|' %{buildroot}/usr/lib/systemd/sys
 
 # Make sure the mumble-server-user-wrapper script knows where to find the template ini file
 sed -i 's|^SYSDIR=.*|SYSDIR=/usr/share/mumble|g' %{buildroot}/usr/bin/mumble-server-user-wrapper
-
-# Install the sysusers file so systemd will create a non-root user for the server
-mkdir -p %{buildroot}/usr/lib/sysusers.d
-install -m0644 -T %{_builddir}/mumble-%{version}/auxiliary_files/config_files/mumble-server.sysusers %{buildroot}/usr/lib/sysusers.d/mumble-server.conf
