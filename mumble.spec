@@ -7,7 +7,7 @@
 #
 Name     : mumble
 Version  : 1.5.517
-Release  : 19
+Release  : 20
 URL      : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source0  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source1  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz.sig
@@ -115,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1684966928
+export SOURCE_DATE_EPOCH=1684968120
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -133,9 +133,30 @@ export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -f
 -DMUMBLE_INSTALL_ABS_SYSCONFDIR=/usr/share/mumble
 make  %{?_smp_mflags}
 popd
+mkdir -p clr-build-avx2
+pushd clr-build-avx2
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export FCFLAGS="$FFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export FFLAGS="$FFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export CFLAGS="$CFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+%cmake .. -Dbundled-celt=ON \
+-Dbundled-speex=OFF \
+-Drnnoise=ON \
+-Dspeechd=OFF \
+-Dupdate=OFF \
+-Dice=OFF \
+-Doverlay-xcompile=OFF \
+-DMUMBLE_INSTALL_ABS_SYSCONFDIR=/usr/share/mumble
+make  %{?_smp_mflags}
+popd
 
 %install
-export SOURCE_DATE_EPOCH=1684966928
+export SOURCE_DATE_EPOCH=1684968120
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mumble
 cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/appimage_runtime_license.txt %{buildroot}/usr/share/package-licenses/mumble/56e286039c4b5a9370b7f45f0baf7eb5b5753277 || :
@@ -192,6 +213,9 @@ cp %{_builddir}/mumble-%{version}/icons/flags/LICENSE.md %{buildroot}/usr/share/
 cp %{_builddir}/mumble-%{version}/installer/gpl.txt %{buildroot}/usr/share/package-licenses/mumble/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
 cp %{_builddir}/mumble-%{version}/src/mumble/qttranslations/LICENSE %{buildroot}/usr/share/package-licenses/mumble/a086566c447c42592640d238e5ca117a99e89fff || :
 cp %{_builddir}/mumble-%{version}/themes/Default/LICENSE %{buildroot}/usr/share/package-licenses/mumble/f6067df486cbdbb0aac026b799b26261c92734a3 || :
+pushd clr-build-avx2
+%make_install_v3  || :
+popd
 pushd clr-build
 %make_install
 popd
@@ -222,12 +246,14 @@ sed -i 's|\(-ini.*\)/usr\(/etc/.*\.ini\)|\1\2|' %{buildroot}/usr/lib/systemd/sys
 # Make sure the mumble-server-user-wrapper script knows where to find the template ini file
 sed -i 's|^SYSDIR=.*|SYSDIR=/usr/share/mumble|g' %{buildroot}/usr/bin/mumble-server-user-wrapper
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/mumble
 /usr/bin/mumble
 /usr/bin/mumble-overlay
 
@@ -240,6 +266,7 @@ sed -i 's|^SYSDIR=.*|SYSDIR=/usr/share/mumble|g' %{buildroot}/usr/bin/mumble-ser
 
 %files extras
 %defattr(-,root,root,-)
+/V3/usr/bin/mumble-server
 /usr/bin/mumble-server
 /usr/bin/mumble-server-user-wrapper
 /usr/lib/systemd/system/mumble-server.service
@@ -252,6 +279,54 @@ sed -i 's|^SYSDIR=.*|SYSDIR=/usr/share/mumble|g' %{buildroot}/usr/bin/mumble-ser
 
 %files lib
 %defattr(-,root,root,-)
+/V3/usr/lib64/mumble/libmumbleoverlay.so
+/V3/usr/lib64/mumble/libmumbleoverlay.so.1.5.0
+/V3/usr/lib64/mumble/plugins/libamongus.so
+/V3/usr/lib64/mumble/plugins/libaoc.so
+/V3/usr/lib64/mumble/plugins/libarma2.so
+/V3/usr/lib64/mumble/plugins/libbf1.so
+/V3/usr/lib64/mumble/plugins/libbf1942.so
+/V3/usr/lib64/mumble/plugins/libbf2.so
+/V3/usr/lib64/mumble/plugins/libbf2142.so
+/V3/usr/lib64/mumble/plugins/libbf3.so
+/V3/usr/lib64/mumble/plugins/libbf4.so
+/V3/usr/lib64/mumble/plugins/libbf4_x86.so
+/V3/usr/lib64/mumble/plugins/libbfbc2.so
+/V3/usr/lib64/mumble/plugins/libbfheroes.so
+/V3/usr/lib64/mumble/plugins/libblacklight.so
+/V3/usr/lib64/mumble/plugins/libborderlands.so
+/V3/usr/lib64/mumble/plugins/libborderlands2.so
+/V3/usr/lib64/mumble/plugins/libbreach.so
+/V3/usr/lib64/mumble/plugins/libcod2.so
+/V3/usr/lib64/mumble/plugins/libcod4.so
+/V3/usr/lib64/mumble/plugins/libcod5.so
+/V3/usr/lib64/mumble/plugins/libcodmw2.so
+/V3/usr/lib64/mumble/plugins/libcodmw2so.so
+/V3/usr/lib64/mumble/plugins/libcs.so
+/V3/usr/lib64/mumble/plugins/libdys.so
+/V3/usr/lib64/mumble/plugins/libetqw.so
+/V3/usr/lib64/mumble/plugins/libffxiv.so
+/V3/usr/lib64/mumble/plugins/libffxiv_x64.so
+/V3/usr/lib64/mumble/plugins/libgmod.so
+/V3/usr/lib64/mumble/plugins/libgtaiv.so
+/V3/usr/lib64/mumble/plugins/libgtasa.so
+/V3/usr/lib64/mumble/plugins/libgtav.so
+/V3/usr/lib64/mumble/plugins/libgw.so
+/V3/usr/lib64/mumble/plugins/libinsurgency.so
+/V3/usr/lib64/mumble/plugins/libjc2.so
+/V3/usr/lib64/mumble/plugins/liblink.so
+/V3/usr/lib64/mumble/plugins/liblol.so
+/V3/usr/lib64/mumble/plugins/liblotro.so
+/V3/usr/lib64/mumble/plugins/libql.so
+/V3/usr/lib64/mumble/plugins/librl.so
+/V3/usr/lib64/mumble/plugins/libse.so
+/V3/usr/lib64/mumble/plugins/libsr.so
+/V3/usr/lib64/mumble/plugins/libut2004.so
+/V3/usr/lib64/mumble/plugins/libut3.so
+/V3/usr/lib64/mumble/plugins/libut99.so
+/V3/usr/lib64/mumble/plugins/libwolfet.so
+/V3/usr/lib64/mumble/plugins/libwow.so
+/V3/usr/lib64/mumble/plugins/libwow_x64.so
 /usr/lib64/mumble/libmumbleoverlay.so
 /usr/lib64/mumble/libmumbleoverlay.so.1.5.0
 /usr/lib64/mumble/plugins/libamongus.so
