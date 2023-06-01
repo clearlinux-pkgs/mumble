@@ -7,7 +7,7 @@
 #
 Name     : mumble
 Version  : 1.5.517
-Release  : 20
+Release  : 21
 URL      : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source0  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source1  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz.sig
@@ -115,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1684968120
+export SOURCE_DATE_EPOCH=1685592192
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -156,7 +156,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1684968120
+export SOURCE_DATE_EPOCH=1685592192
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mumble
 cp %{_builddir}/mumble-%{version}/3rdPartyLicenses/appimage_runtime_license.txt %{buildroot}/usr/share/package-licenses/mumble/56e286039c4b5a9370b7f45f0baf7eb5b5753277 || :
@@ -279,7 +279,6 @@ sed -i 's|^SYSDIR=.*|SYSDIR=/usr/share/mumble|g' %{buildroot}/usr/bin/mumble-ser
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/mumble/libmumbleoverlay.so
 /V3/usr/lib64/mumble/libmumbleoverlay.so.1.5.0
 /V3/usr/lib64/mumble/plugins/libamongus.so
 /V3/usr/lib64/mumble/plugins/libaoc.so
