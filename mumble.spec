@@ -7,7 +7,7 @@
 #
 Name     : mumble
 Version  : 1.5.517
-Release  : 23
+Release  : 24
 URL      : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source0  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz
 Source1  : https://github.com/mumble-voip/mumble/releases/download/v1.5.517/mumble-1.5.517.tar.gz.sig
