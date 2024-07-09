@@ -1,0 +1,10 @@
+--- mumble-1.5.634/cmake/compiler.cmake~	2024-05-16 13:36:00.000000000 +0000
++++ mumble-1.5.634/cmake/compiler.cmake	2024-07-09 21:25:56.551826005 +0000
+@@ -69,6 +69,7 @@
+ elseif(UNIX OR MINGW)
+ 	add_compile_options(
+ 		"-fvisibility=hidden"
++		"-std=c++17"
+ 	)
+ 
+ 	if(optimize)

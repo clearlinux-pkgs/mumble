@@ -9,10 +9,9 @@
 
 # Most of this goes in /usr/share/mumble:
 mkdir -p %{buildroot}/usr/share/mumble
-mv \
-	%{buildroot}/usr/etc/sysconfig.d/*	\
-	%{buildroot}/usr/etc/mumble/*		\
-	%{buildroot}/usr/share/mumble/
+mv  %{buildroot}/usr/etc/mumble/* %{buildroot}/usr/share/mumble/
+mv  %{buildroot}/usr/etc/tmpfiles.d/* %{buildroot}/usr/share/mumble/
+mv  %{buildroot}/usr/etc/sysusers.d/* %{buildroot}/usr/share/mumble/
 
 # But install the systemd.service in /usr/lib:
 mkdir -p %{buildroot}/usr/lib/systemd/system
